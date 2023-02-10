@@ -43,13 +43,20 @@
         text-transform:uppercase;
       }
 
-      .headertext:hover{
+      .headertext:hover, .fa-sort-desc:hover{
         cursor:pointer;
       }
 
       .minsize{
         font-size:.9rem;
         font-weight:300;
+      }
+
+      #perfil_image{
+        border-radius: 100%;
+        height: 2rem;
+        width: 2rem;
+        object-fit: cover;
       }
     
     </style>
@@ -92,13 +99,17 @@
                         <div class="columnflex headertext minsize"><i class="fa fa-list mr-2 headertext mb-1" aria-hidden="true"></i>Timeline</div>
                       </li>
                       <li class="list-group-item noline">
-                        <div class="columnflex headertext minsize"><i class="fa fa-suitcase mr-2 headertext mb-1" aria-hidden="true"></i>Mapa</div>
+                        <div class="columnflex headertext minsize"><i class="fa fa-lightbulb-o mr-2 headertext mb-1" aria-hidden="true"></i>Assistente</div>
                       </li>
                       <li class="list-group-item noline">
-                        <div class="columnflex headertext minsize"><i class="fa fa-suitcase mr-2 headertext mb-1" aria-hidden="true"></i>Mapa</div>
+                        <div class="columnflex headertext minsize"><i class="fa fa-question-circle mr-2 headertext mb-1" aria-hidden="true"></i>Ajuda</div>
                       </li>
-                      <li class="list-group-item noline">
-                        <div class="columnflex headertext minsize"><i class="fa fa-suitcase mr-2 headertext mb-1" aria-hidden="true"></i>Mapa</div>
+                      <li class="list-group-item noline columnflex">
+                        <div class="lineflex justify-content-center">
+                          <img src="./image/model_ynnov.jpg" alt="Foto de Perfil" id="perfil_image">
+                          <p class="m-0 ml-2" style="color:#f7f7f7;text-transform:capitalize;">Sofia Lima</p>
+                          <i class="fa fa-sort-desc ml-3" aria-hidden="true" style="color:#f7f7f7;display: flex;flex-direction: column;align-self: center;padding-bottom: 0.5rem;"></i>
+                        </div>
                       </li>
                     </ul>
 
