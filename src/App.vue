@@ -1,7 +1,7 @@
 <template>
-  <div id="app" class="d-flex flex-column" style="width:100vw;height:100vh;">
+  <div id="app" class="d-flex flex-column" style="width:100vw;height:150vh;">
   
-    <div class="basediv col-12 p-0">
+    <div class="basediv col-12 p-0" style="overflow-y:hidden;">
 
       <Header />
 
@@ -19,7 +19,7 @@
           
         <Asside />
 
-        <div class="col-12 order-2">
+        <div class="col-10 order-2 d-flex flex-row justify-content-center" style="position:absolute;right:0;overflow-y:hidden;">
           <router-view></router-view>
         </div>
           
