@@ -240,6 +240,14 @@ export default{
 
                 console.log('Formulário enviado!', formularioEnviado)
 
+                //Clean Inputs
+                /* this.datainfo.name = '';
+                this.datainfo.address = '';
+                this.datainfo.postalcode = '';
+                this.datainfo.city = '';
+                this.datainfo.region = '';
+                this.datainfo.country = ''; */
+
             }else{
 
                 alert('Favor revisar os campos');
