@@ -213,22 +213,23 @@ export default{
            
             //Sequence of validate
             if(this.datainfo.registo !== undefined){
-                
-                let valueregister = this.datainfo.registo;
 
-                let listnumber = [];
 
-                for(let i = 10000; i <= 100000; i++){
+                if(this.datainfo.registo !== ''){
 
-                    listnumber.push(i);
+                    let registonumber = parseInt(this.datainfo.registo);
 
-                }
+                    if(registonumber >= 10000 & registonumber <= 100000){
 
-                if(!listnumber.includes(valueregister) && this.datainfo.registo !== ''){
+                        this.datainfo.registo = registonumber;
 
-                    alert('Favor preencher um número entre 10000 e 100000');
+                    }else{
 
-                    this.validateinput = true;
+                        alert('Favor preencher um número entre 10000 e 100000');
+
+                        this.validateinput = true;
+
+                    }
 
                 }
 
