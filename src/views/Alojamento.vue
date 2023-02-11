@@ -15,7 +15,7 @@
                         </div>
                         <div class="form-group col-md-6">
                         <label for="inputregisto">Registo Al</label>
-                        <input type="text" class="form-control" id="inputregisto" v-model.number="datainfo.registo" minlength="5" maxlength="6">
+                        <input type="text" class="form-control" id="inputregisto" v-model.number="datainfo.registo">
                         </div>
                     </div>
                     <div class="form-group">
@@ -25,7 +25,7 @@
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="inputAddress2">Código Postal</label>
-                            <input type="text" class="form-control" id="inputAddress2" placeholder="Código Postal" v-model.number="datainfo.postalcode" minlength="7" maxlength="8">
+                            <input type="text" class="form-control" id="inputAddress2" placeholder="Código Postal" v-on:blur="checkPostalCode" v-model.number="datainfo.postalcode">
                         </div>
                         <div class="form-group col-md-6">
                             <label for="inputCity">Localidade</label>
@@ -126,7 +126,6 @@
 
 <script>
 
-
 export default{
 
     data(){
@@ -159,7 +158,10 @@ export default{
             ],
             numberref: '',
             tagindicate: '#',
-            addclassData:['show', 'active']
+            addclassData:['show', 'active'],
+            validatePostalCode: false,
+            postalCode: '',
+            cleanPostalIntCode: '',
     
         }
 
@@ -170,22 +172,44 @@ export default{
 
             const formularioEnviado = Object.assign({}, this.datainfo)
 
-            if(this.datainfo.name === undefined && 
-              this.datainfo.address === undefined &&
-              this.datainfo.postalcode === undefined &&
+            //Check if the input is fill
+            if(this.datainfo.name === undefined || 
+              this.datainfo.address === undefined ||
+              this.datainfo.postalcode === undefined ||
               this.datainfo.city === undefined
             ){
                 this.validateinput = true;
-            }
 
-            //Check Postal Code
-            if(this.datainfo.postalcode !== undefined){
+                //Check if the input is not empty
 
-                if(this.datainfo.postalcode.length <= 6 || this.datainfo.postalcode.length > 8){
-                    this.validateinput = true;
+            }else if(this.datainfo.name === "" || 
+              this.datainfo.address === "" ||
+              this.datainfo.postalcode === "" ||
+              this.datainfo.city === ""
+            ){
+                this.validateinput = true;
+
+            }else{
+
+                //Check Postal Code
+                if(this.datainfo.postalcode !== undefined || this.datainfo.postalcode !== ""){
+
+                    //Verify the postalCode 
+                    if(this.validatePostalCode){
+
+                        //Match Code
+                        parseInt(this.datainfo.postalcode);
+
+                    }else{
+
+                        alert('Favor informar Código Postal Válido');
+
+                    }
+
                 }
 
             }
+
            
             //Sequence of validate
             if(this.datainfo.registo !== undefined){
@@ -250,9 +274,69 @@ export default{
 
             return this.numberref = index;
 
+        },
+        checkPostalCode(event){
+
+            this.postalCode = event.target.value;
+
+            if(this.postalCode !== undefined || this.postalCode !== ''){
+
+                let listnumber = [...this.postalCode];
+                let checkhifen;
+
+                let checktypedata = listnumber.filter((value) =>{ return Number.isInteger(parseInt(value)) });
+
+
+                if(checktypedata.length <= 7){
+
+                    switch(checktypedata.length){
+
+                        case 7:
+
+                            this.cleanPostalIntCode = parseInt(checktypedata.join(''));
+                            checktypedata.splice(4, 0, '-');
+
+                            checkhifen = true;
+
+                        break;
+                       
+
+                        default:
+
+                            checkhifen = false;
+
+                            alert('Favor informar Código Postal Válido');
+                        break;
+                        
+                    }
+
+                    this.datainfo.postalcode = checktypedata.join('');
+          
+                    return this.validatePostalCode = checkhifen;
+
+                }else{
+
+                    alert('Favor informar Código Postal Válido');
+
+                }
+
+            }
+
+            return false;
+
+
         }
 
     },
+    /* computed:{
+
+        postalCodeGet: function(value){
+
+            return  this.postalCode;
+
+        }
+
+    }, */
     watch:{
 
         listofcountry: function(newCalls){
