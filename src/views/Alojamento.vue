@@ -80,45 +80,41 @@
         <div class="titlebase d-flex-flex-row order-1 mt-5">
             <h3>Título</h3>
 
-            <ul class="nav nav-tabs" id="myTab" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="home-tab" data-toggle="tab" data-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Português</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="profile-tab" data-toggle="tab" data-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Inglês</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="contact-tab" data-toggle="tab" data-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Francês</button>
+            <ul class="nav nav-tabs" id="myTabDesc" role="tablist">
+                <li class="nav-item" role="presentation" v-for="(value, index) in listoftitle" :key="index">
+                    <button class="nav-link" :id="value.tag + 'tab'" data-toggle="tab" :data-target="tagindicate + value.tag" type="button" role="tab" :aria-controls="value.tag" :aria-selected="true" v-on:click="addClass(index)">{{ value.name }}</button>
                 </li>
             </ul>
 
             <div class="tab-content" id="myTabContent">
-                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">Portugues Apartment</div>
-                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">Inglês Apartment</div>
-                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">Francês Apartment</div>
+                <div v-for="(value, index) in listoftitle" :key="index" class="tab-pane fade" :id="value.tag" role="tabpanel" :aria-labelledby="value.tag">{{ value.title }}</div>
             </div>
 
         </div>
 
-        <div class="titlebase d-flex-flex-row order-2 mt-5">
+        <div class="descbase d-flex-flex-row order-2 mt-5">
             <h3>Descrição</h3>
 
-            <ul class="nav nav-tabs" id="myTab" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="home-tab" data-toggle="tab" data-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Português</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="profile-tab" data-toggle="tab" data-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Inglês</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="contact-tab" data-toggle="tab" data-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Francês</button>
+            <ul class="nav nav-tabs" id="myTabDesc" role="tablist">
+                <li class="nav-item" role="presentation" v-for="(value, index) in listofdesc" :key="index">
+                    <button class="nav-link" :id="value.tag + 'tab'" data-toggle="tab" :data-target="tagindicate + value.tag" type="button" role="tab" :aria-controls="value.tag" :aria-selected="true">{{ value.name }}</button>
                 </li>
             </ul>
 
             <div class="tab-content" id="myTabContent">
-                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">Português Apartment Descrição</div>
-                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">Inglês Apartment Descrição</div>
-                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">Francês Apartment Descrição</div>
+                <div v-if="numberref === 0">
+                    <div v-for="(value, index) in listofdescport" :key="index" class="tab-pane fade" :class="addclassData" :id="value.tag" role="tabpanel" :aria-labelledby="value.tag">{{ value.descricao }}</div>
+                </div>
+                <div v-else-if="numberref === 1">
+                    <div v-for="(value, index) in listofdescing" :key="index" class="tab-pane fade" :class="addclassData" :id="value.tag" role="tabpanel" :aria-labelledby="value.tag">{{ value.descricao }}</div>
+                </div>
+                <div v-else-if="numberref === 2">
+                    <div v-for="(value, index) in listofdescfranc" :key="index" class="tab-pane fade" :class="addclassData" :id="value.tag" role="tabpanel" :aria-labelledby="value.tag">{{ value.descricao }}</div>
+                </div>
+                <div v-else>
+                    Nada para apresentar
+                </div>
+                
             </div>
 
         </div>
@@ -131,7 +127,6 @@
 <script>
 
 
-
 export default{
 
     data(){
@@ -142,7 +137,29 @@ export default{
             validateinput: false,
             registo: null,
             url: 'https://restcountries.com/v2/all',
-            listofcountry: []
+            listofcountry: [],
+            listoftitle:[
+                {id:1, name: 'Português', tag: 'portugues', title:'Portugues Apartament'},
+                {id:2, name: 'Inglês', tag: 'ingles', title:'Ingles Apartament'},
+                {id:3, name: 'Francês', tag: 'frances', title:'Frances Apartament'},
+            ],
+            listofdesc:[
+                {id:1, name: 'Português', tag: 'portugues', title:'Portugues Apartament'},
+                {id:2, name: 'Inglês', tag: 'ingles', title:'Ingles Apartament'},
+                {id:3, name: 'Francês', tag: 'frances', title:'Frances Apartament'},
+            ],
+            listofdescport:[
+                {id:1, name: 'Português', tag: 'portugues', descricao:'Portugues Apartament Descricao'},
+            ],
+            listofdescing:[
+                {id:1, name: 'Inglês', tag: 'ingles', descricao:'Inglês Apartament Descricao'},
+            ],
+            listofdescfranc:[
+                {id:1, name: 'Francês', tag: 'frances', descricao:'Francês Apartament Descricao'},
+            ],
+            numberref: '',
+            tagindicate: '#',
+            addclassData:['show', 'active']
     
         }
 
@@ -224,6 +241,14 @@ export default{
                 console.log(msgerror);
 
             }
+
+        },
+        addClass(index){
+
+            //let position = index === 0 ? index + 1 : index;
+            console.log(index);
+
+            return this.numberref = index;
 
         }
 
