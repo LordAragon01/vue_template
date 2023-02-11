@@ -38,7 +38,7 @@
                 </li>
                 <li class="list-group-item noline columnflex">
                     <div class="lineflex justify-content-center">
-                    <img src="../../image/model_ynnov.jpg" alt="Foto de Perfil" id="perfil_image">
+                    <img src="../assets/model_ynnov.jpg" alt="Foto de Perfil" id="perfil_image">
                     <p class="m-0 ml-2" style="color:#f7f7f7;text-transform:capitalize;">Sofia Lima</p>
                     <i class="fa fa-sort-desc ml-3" aria-hidden="true" style="color:#f7f7f7;display: flex;flex-direction: column;align-self: center;padding-bottom: 0.5rem;"></i>
                     </div>

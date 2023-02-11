@@ -5,7 +5,7 @@
         <div class="w-100 h-100 d-flex flex-column align-items-start">
 
         <div class="wrapperlogo order-1 my-4">
-            <img src="../../image/logo.png" alt="Logo CRM" style="width:8rem;height:auto;">
+            <img src="../assets/logo.png" alt="Logo CRM" style="width:8rem;height:auto;">
         </div>
 
         <nav class="wrappermenu my-2 order-2 w-100 h-100">
