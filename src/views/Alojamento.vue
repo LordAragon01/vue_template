@@ -82,7 +82,7 @@
 
             <ul class="nav nav-tabs" id="myTabDesc" role="tablist">
                 <li class="nav-item" role="presentation" v-for="(value, index) in listoftitle" :key="index">
-                    <button class="nav-link" :id="value.tag + 'tab'" data-toggle="tab" :data-target="tagindicate + value.tag" type="button" role="tab" :aria-controls="value.tag" :aria-selected="true" v-on:click="addClass(index)">{{ value.name }}</button>
+                    <button class="nav-link" :id="value.tag + 'tab'" data-toggle="tab" :data-target="tagindicate + value.tag" type="button" role="tab" :aria-controls="value.tag" :aria-selected="true" v-on:click="indexList(index)">{{ value.name }}</button>
                 </li>
             </ul>
 
@@ -96,20 +96,17 @@
             <h3>Descrição</h3>
 
             <ul class="nav nav-tabs" id="myTabDesc" role="tablist">
-                <li class="nav-item" role="presentation" v-for="(value, index) in listofdesc" :key="index">
+                <li class="nav-item" role="presentation" v-for="(value, index) in listofdesctitle" :key="index">
                     <button class="nav-link" :id="value.tag + 'tab'" data-toggle="tab" :data-target="tagindicate + value.tag" type="button" role="tab" :aria-controls="value.tag" :aria-selected="true">{{ value.name }}</button>
                 </li>
             </ul>
 
             <div class="tab-content" id="myTabContent">
-                <div v-if="numberref === 0">
-                    <div v-for="(value, index) in listofdescport" :key="index" class="tab-pane fade" :class="addclassData" :id="value.tag" role="tabpanel" :aria-labelledby="value.tag">{{ value.descricao }}</div>
-                </div>
-                <div v-else-if="numberref === 1">
-                    <div v-for="(value, index) in listofdescing" :key="index" class="tab-pane fade" :class="addclassData" :id="value.tag" role="tabpanel" :aria-labelledby="value.tag">{{ value.descricao }}</div>
-                </div>
-                <div v-else-if="numberref === 2">
-                    <div v-for="(value, index) in listofdescfranc" :key="index" class="tab-pane fade" :class="addclassData" :id="value.tag" role="tabpanel" :aria-labelledby="value.tag">{{ value.descricao }}</div>
+             
+                <div v-if="actuallistdesc.length !== 0">
+                    <div v-for="(value, index) in actuallistdesc" :key="index" class="tab-pane fade" :class="addclassData" :id="value.tag" role="tabpanel" :aria-labelledby="value.tag">
+                        {{ value.descricao }}
+                    </div>
                 </div>
                 <div v-else>
                     Nada para apresentar
@@ -142,19 +139,15 @@ export default{
                 {id:2, name: 'Inglês', tag: 'ingles', title:'Ingles Apartament'},
                 {id:3, name: 'Francês', tag: 'frances', title:'Frances Apartament'},
             ],
-            listofdesc:[
+            listofdesctitle:[
                 {id:1, name: 'Português', tag: 'portugues', title:'Portugues Apartament'},
                 {id:2, name: 'Inglês', tag: 'ingles', title:'Ingles Apartament'},
                 {id:3, name: 'Francês', tag: 'frances', title:'Frances Apartament'},
             ],
-            listofdescport:[
+            alldesclist: [
                 {id:1, name: 'Português', tag: 'portugues', descricao:'Portugues Apartament Descricao'},
-            ],
-            listofdescing:[
-                {id:1, name: 'Inglês', tag: 'ingles', descricao:'Inglês Apartament Descricao'},
-            ],
-            listofdescfranc:[
-                {id:1, name: 'Francês', tag: 'frances', descricao:'Francês Apartament Descricao'},
+                {id:2, name: 'Inglês', tag: 'ingles', descricao:'Inglês Apartament Descricao'},
+                {id:3, name: 'Francês', tag: 'frances', descricao:'Francês Apartament Descricao'},
             ],
             numberref: '',
             tagindicate: '#',
@@ -162,6 +155,7 @@ export default{
             validatePostalCode: false,
             postalCode: '',
             cleanPostalIntCode: '',
+            actuallistdesc: []
     
         }
 
@@ -276,10 +270,10 @@ export default{
             }
 
         },
-        addClass(index){
+        getIndex(index){
 
             //let position = index === 0 ? index + 1 : index;
-            console.log(index);
+            //console.log(index);
 
             return this.numberref = index;
 
@@ -334,14 +328,33 @@ export default{
             return false;
 
 
+        },
+        indexList(indexref){
+
+            //Clean Array
+            this.actuallistdesc = [];
+
+            //Set array value
+            this.alldesclist.find((value, index) => index === indexref ? this.actuallistdesc.push(value) : '');
+
+            return this.actuallistdesc;
+
         }
 
     },
     /* computed:{
 
-        postalCodeGet: function(value){
+        indexList: function(indexref){
 
-            return  this.postalCode;
+            indexref = this.numberref;
+
+            let test =  this.alldesclist.find((value, index) => index === indexref ? value : '');
+
+           console.log(test);
+
+           return test;
+
+           return this.alldesclist.find((value, index) => index === indexref ? value : '');
 
         }
 
@@ -352,7 +365,14 @@ export default{
 
             this.listofcountry = newCalls;
 
-        }
+        },
+       /*  indexList: function(indexref){
+
+            indexref = this.numberref;
+
+            return this.actuallistdesc = this.alldesclist.find((value, index) => index === indexref ? value : '');
+
+        } */
 
     },
     created(){
