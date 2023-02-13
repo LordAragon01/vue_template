@@ -15,7 +15,7 @@
                         </div>
                         <div class="form-group col-md-6">
                         <label for="inputregisto">Registo Al</label>
-                        <input type="text" class="form-control" id="inputregisto" v-model.number="datainfo.registo">
+                        <input type="text" class="form-control" id="inputregisto" v-model.number="datainfo.registo" v-on:blur="checkRegisto">
                         </div>
                     </div>
                     <div class="form-group">
@@ -42,7 +42,7 @@
                         </div>
                         <div class="form-group col-md-6">
                         <label for="inputState">País</label>
-                        <select id="inputState" class="form-control" v-model="datainfo.country" v-on:click="getCountrys()">
+                        <select id="inputState" class="form-control" v-model="datainfo.country">
                             <option selected>Choose...</option>
                             <option v-for="(country, index) in listofcountry" :key="index" :value="country.alpha2Code">
                                 {{ country.name }}
@@ -155,7 +155,8 @@ export default{
             validatePostalCode: false,
             postalCode: '',
             cleanPostalIntCode: '',
-            actuallistdesc: []
+            actuallistdesc: [],
+            registonumber: ''
     
         }
 
@@ -197,6 +198,7 @@ export default{
                     }else{
 
                         alert('Favor informar Código Postal Válido');
+                        this.validateinput = true;
 
                     }
 
@@ -205,25 +207,12 @@ export default{
             }
 
            
-            //Sequence of validate
+            //Sequence of validate to Registo
             if(this.datainfo.registo !== undefined){
-
 
                 if(this.datainfo.registo !== ''){
 
-                    let registonumber = parseInt(this.datainfo.registo);
-
-                    if(registonumber >= 10000 & registonumber <= 100000){
-
-                        this.datainfo.registo = registonumber;
-
-                    }else{
-
-                        alert('Favor preencher um número entre 10000 e 100000');
-
-                        this.validateinput = true;
-
-                    }
+                    this.datainfo.registo = parseInt(this.registonumber);
 
                 }
 
@@ -250,26 +239,6 @@ export default{
             }
 
         },
-        async getCountrys(url){
-
-            try{
-
-                url = this.url;
-
-                let fetchurl = await fetch(url);
-                let response = await fetchurl.json();
-
-                this.listofcountry = response;
-
-            }catch(err){
-
-                let msgerror = new Error(err);
-
-                console.log(msgerror);
-
-            }
-
-        },
         getIndex(index){
 
             //let position = index === 0 ? index + 1 : index;
@@ -285,7 +254,6 @@ export default{
             if(this.postalCode !== undefined || this.postalCode !== ''){
 
                 let listnumber = [...this.postalCode];
-                let checkhifen;
 
                 let checktypedata = listnumber.filter((value) =>{ return Number.isInteger(parseInt(value)) });
 
@@ -299,14 +267,14 @@ export default{
                             this.cleanPostalIntCode = parseInt(checktypedata.join(''));
                             checktypedata.splice(4, 0, '-');
 
-                            checkhifen = true;
+                            this.validatePostalCode = true;
 
                         break;
                        
 
                         default:
 
-                            checkhifen = false;
+                        this.validatePostalCode = false;
 
                             alert('Favor informar Código Postal Válido');
                         break;
@@ -315,7 +283,7 @@ export default{
 
                     this.datainfo.postalcode = checktypedata.join('');
           
-                    return this.validatePostalCode = checkhifen;
+                    return this.validatePostalCode;
 
                 }else{
 
@@ -338,6 +306,28 @@ export default{
             this.alldesclist.find((value, index) => index === indexref ? this.actuallistdesc.push(value) : '');
 
             return this.actuallistdesc;
+
+        },
+        checkRegisto(event){
+
+            if(event.target.value){
+
+                this.registonumber = parseInt(event.target.value);
+
+                if(this.registonumber >= 10000 & this.registonumber <= 100000){
+
+                    return this.registonumber;
+
+                }else{
+
+                    alert('Favor preencher um número entre 10000 e 100000');
+                    this.validateinput = true;
+
+                }
+
+            }
+
+           return;
 
         }
 
@@ -377,7 +367,28 @@ export default{
     },
     created(){
 
-        //console.log(this.value);
+        fetch(this.url)
+        .then((response) => {
+
+            response.json().then((data) => {
+
+                this.listofcountry = data;
+
+            }).catch((err) => {
+
+                let msgerror = new Error(err);
+
+                console.log(msgerror);
+
+            });
+
+        }).catch((err) => {
+
+            let msgerror = new Error(err);
+
+            console.log(msgerror);
+
+        });
 
     }
 
